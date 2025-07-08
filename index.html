@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Student Details</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f4f6f8;
+      margin: 0;
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    h2 {
+      color: #4b4bfa;
+      margin-bottom: 20px;
+    }
+
+    .form-container {
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      width: 350px;
+      margin-bottom: 40px;
+    }
+
+    .form-container h3 {
+      margin-top: 0;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+      margin-bottom: 5px;
+      font-weight: 500;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    input[type="email"],
+    select {
+      width: 100%;
+      padding: 8px 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+
+    .gender-options {
+      display: flex;
+      gap: 10px;
+      margin-top: 5px;
+    }
+
+    .save-btn {
+      margin-top: 20px;
+      width: 100%;
+      padding: 10px;
+      background-color: #4caf50;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .save-btn:hover {
+      background-color: #43a047;
+    }
+
+    table {
+      width: 90%;
+      max-width: 800px;
+      border-collapse: collapse;
+      background-color: #fff;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+
+    th, td {
+      padding: 12px;
+      text-align: center;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    th {
+      background-color: #eeeeee;
+    }
+
+    .delete-btn {
+      background-color: #e53935;
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .delete-btn:hover {
+      background-color: #c62828;
+    }
+
+    @media (max-width: 600px) {
+      .form-container, table {
+        width: 95%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h2>STUDENT DETAILS</h2>
+
+  <div class="form-container">
+    <h3>STUDENT FORM</h3>
+
+    <label for="name">Name:</label>
+    <input type="text" id="name">
+
+    <label for="age">Age:</label>
+    <input type="number" id="age">
+
+    <label>Gender:</label>
+    <div class="gender-options">
+      <label><input type="radio" name="gender" value="Male"> Male</label>
+      <label><input type="radio" name="gender" value="FeMale"> Female</label>
+    </div>
+
+    <label for="course">Course:</label>
+    <select id="course">
+      <option value="JavaScript">JavaScript</option>
+      <option value="PYTHON">PYTHON</option>
+      <option value="HTML">HTML</option>
+      <option value="CSS">CSS</option>
+    </select>
+
+    <label for="email">E-mail:</label>
+    <input type="email" id="email">
+
+    <button class="save-btn" onclick="addStudent()">Save</button>
+  </div>
+
+  <table id="studentTable">
+    <thead>
+      <tr>
+        <th>NAME</th>
+        <th>AGE</th>
+        <th>COURSE</th>
+        <th>GENDER</th>
+        <th>EMAIL</th>
+        <th>ACTION</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Students will be added here -->
+    </tbody>
+  </table>
+
+  <script>
+    function addStudent() {
+      const name = document.getElementById("name").value;
+      const age = document.getElementById("age").value;
+      const course = document.getElementById("course").value;
+      const email = document.getElementById("email").value;
+      const gender = document.querySelector('input[name="gender"]:checked')?.value;
+
+      if (!name || !age || !course || !email || !gender) {
+        alert("Please fill in all fields.");
+        return;
+      }
+
+      const table = document.getElementById("studentTable").getElementsByTagName("tbody")[0];
+      const newRow = table.insertRow();
+
+      newRow.innerHTML = `
+        <td>${name}</td>
+        <td>${age}</td>
+        <td>${course}</td>
+        <td>${gender}</td>
+        <td>${email}</td>
+        <td><button class="delete-btn" onclick="deleteRow(this)">Delete</button></td>
+      `;
+
+      // Clear form
+      document.getElementById("name").value = '';
+      document.getElementById("age").value = '';
+      document.getElementById("course").value = 'JavaScript';
+      document.getElementById("email").value = '';
+      document.querySelectorAll('input[name="gender"]').forEach(el => el.checked = false);
+    }
+
+    function deleteRow(button) {
+      button.closest("tr").remove();
+    }
+  </script>
+
+</body>
+</html>
